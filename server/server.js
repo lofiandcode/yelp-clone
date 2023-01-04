@@ -20,7 +20,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-    }
+    };
 });
 
 // GET a Restaurant
@@ -37,7 +37,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-    }
+    };
 
 });
 
@@ -58,7 +58,7 @@ app.post("/api/v1/restaurants", async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-    }
+    };
 });
 
 // Update a Restaurant
@@ -76,14 +76,20 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-    }
+    };
 });
 
 //Delete a Restaurant
-app.delete("/api/v1/restaurants/:id", (req, res) => {
-    res.status(204).json({
-        status: "success"
-    })
+app.delete("/api/v1/restaurants/:id", async (req, res) => {
+
+    try {
+        const results = await db.query("DELETE FROM restaurants WHERE id = $1", [req.params.id]);
+        res.status(204).json({
+            status: "success"
+        });
+    } catch (error) {
+        console.log(error);
+    };
 });
 
 const PORT = process.env.PORT || 3001;
